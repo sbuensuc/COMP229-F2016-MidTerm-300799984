@@ -1,4 +1,9 @@
-﻿$(document).ready(function () {
+﻿/*  Author: Sam Buensuceso
+    Student#:300799984
+    Date Modified:Oct19,2016
+*/
+
+$(document).ready(function () {
 
     console.log("app started");
 

@@ -8,6 +8,11 @@ using COMP229_F2016_MidTerm_300799984.Models;
 using System.Web.ModelBinding;
 using System.Linq.Dynamic;
 
+/*Author: Sam Buensuceso
+*   Student#:300799984
+*   Date Modified:Oct19,2016
+*/
+
 namespace COMP229_F2016_MidTerm_300799984
 {
     public partial class TodoList : System.Web.UI.Page
