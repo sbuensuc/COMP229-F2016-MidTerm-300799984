@@ -41,7 +41,7 @@ namespace COMP229_F2016_MidTerm_300799984
                                 select allTodos);
 
                 
-                TodoGridView.DataSource = Todos.ToList();
+                TodoGridView.DataSource = Todos.AsQueryable().OrderBy(SortString).ToList();
                 TodoGridView.DataBind();
             }
         }
