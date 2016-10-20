@@ -10,10 +10,26 @@
                     <i class="fa fa-plus">Add Todo</i>
                 </a>
 
-                <asp:GridView ID="TodoGridView" runat="server" AutoGenerateColumns="false" CssClass="table table-bordered table-striped table-hover" DataKeyNames="TodoID" OnRowDeleting="TodoGridView_RowDeleting">
+                <div>
+                    <label for="PageSizeDropDownList">Records per Page:</label>
+                    <asp:DropDownList ID="PageSizeDropDownList" runat="server"
+                        AutoPostBack="true" CssClass="btn btn-default btn-sm dropdown-toggle"
+                        OnSelectedIndexChanged="PageSizeDropDownList_SelectedIndexChanged">
+                        <asp:ListItem Text="3" Value="3" />
+                        <asp:ListItem Text="5" Value="5" />
+                        <asp:ListItem Text="10" Value="10" />
+                        <asp:ListItem Text="All" Value="10000" />
+                    </asp:DropDownList>
+                </div>
+
+                <asp:GridView ID="TodoGridView" runat="server" AutoGenerateColumns="false" CssClass="table table-bordered table-striped table-hover" DataKeyNames="TodoID" 
+                    OnRowDeleting="TodoGridView_RowDeleting" AllowPaging="true" PageSize="3"
+                    OnPageIndexChanging="TodoGridView_PageIndexChanging" AllowSorting="true"
+                    OnSorting="TodoGridView_Sorting" OnRowDataBound="TodoGridView_RowDataBound"
+                    PagerStyle-CssClass="pagination-ys">
                     <Columns>
-                        <asp:BoundField DataField="TodoDescription" HeaderText="To do" Visible="true" />
-                        <asp:BoundField DataField="TodoNotes" HeaderText="Notes" Visible="true" />
+                        <asp:BoundField DataField="TodoDescription" HeaderText="To do" Visible="true" SortExpression="TodoDescription" />
+                        <asp:BoundField DataField="TodoNotes" HeaderText="Notes" Visible="true" SortExpression="TodoNotes"/>
                         <asp:TemplateField HeaderText="Completed">
                             <ItemTemplate>
                                 <asp:CheckBox ID="CompletedCheckbox" runat="server" />

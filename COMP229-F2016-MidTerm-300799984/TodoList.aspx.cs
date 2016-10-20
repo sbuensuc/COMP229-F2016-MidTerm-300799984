@@ -20,7 +20,12 @@ namespace COMP229_F2016_MidTerm_300799984
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.GetTodos();
+            if (!IsPostBack)
+            {
+                Session["SortColumn"] = "TodoDescription";
+                Session["SortDirection"] = "ASC";
+                this.GetTodos();
+            }
         }
 
         private void GetTodos()
@@ -28,9 +33,10 @@ namespace COMP229_F2016_MidTerm_300799984
             
             using (TodoContext db = new TodoContext())
             {
-                
 
-                
+                string SortString = Session["SortColumn"].ToString() + " " +
+                    Session["SortDirection"].ToString();
+
                 var Todos = (from allTodos in db.Todos
                                 select allTodos);
 
@@ -64,6 +70,64 @@ namespace COMP229_F2016_MidTerm_300799984
 
                 
                 this.GetTodos();
+            }
+        }
+
+        protected void PageSizeDropDownList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           
+           TodoGridView.PageSize = Convert.ToInt32(PageSizeDropDownList.SelectedValue);
+
+            
+            this.GetTodos();
+        }
+
+        protected void TodoGridView_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            
+            TodoGridView.PageIndex = e.NewPageIndex;
+
+            
+            this.GetTodos();
+        }
+
+        protected void TodoGridView_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            
+            Session["SortColumn"] = e.SortExpression;
+
+            
+            this.GetTodos();
+
+            // toggle the direction
+            Session["SortDirection"] = Session["SortDirection"].ToString() == "ASC" ? "DESC" : "ASC";
+        }
+
+        protected void TodoGridView_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (IsPostBack)
+            {
+                if (e.Row.RowType == DataControlRowType.Header) // if header row has been clicked
+                {
+                    LinkButton linkbutton = new LinkButton();
+
+                    for (int index = 0; index < TodoGridView.Columns.Count - 1; index++)
+                    {
+                        if (TodoGridView.Columns[index].SortExpression == Session["SortColumn"].ToString())
+                        {
+                            if (Session["SortDirection"].ToString() == "ASC")
+                            {
+                                linkbutton.Text = " <i class='fa fa-caret-up fa-lg'></i>";
+                            }
+                            else
+                            {
+                                linkbutton.Text = " <i class='fa fa-caret-down fa-lg'></i>";
+                            }
+
+                            e.Row.Cells[index].Controls.Add(linkbutton);
+                        }
+                    }
+                }
             }
         }
     }

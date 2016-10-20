@@ -28,18 +28,17 @@ namespace COMP229_F2016_MidTerm_300799984
         protected void GetTodo()
         {
             
-            int StudentID = Convert.ToInt32(Request.QueryString["TodoID"]);
+            int TodoID = Convert.ToInt32(Request.QueryString["TodoID"]);
 
-            // connect to the EF DB
+            
             using (TodoContext db = new TodoContext())
             {
-                // populate a student object instance with the StudentID from 
-                // the URL parameter
+                
                 Todo updatedTodo = (from todo in db.Todos
-                                          where todo.TodoID == StudentID
+                                          where todo.TodoID == TodoID
                                           select todo).FirstOrDefault();
 
-                // map the student properties to the form control
+                
                 if (updatedTodo != null)
                 {
                     TodoDescriptionTextbox.Text = updatedTodo.TodoDescription;
