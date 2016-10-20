@@ -5,19 +5,19 @@
             <div class="col-md-offset-2 col-md-8">
                 <h1>Todo Details</h1>
                 <div class="form-group">
-                    <label class="control-label" for="TodoDescriptionTextbox">Last Name</label>
+                    <label class="control-label" for="TodoDescriptionTextbox">Todo Name</label>
                     <asp:TextBox runat="server" CssClass="form-control" ID="TodoDescriptionTextbox" 
                         placeholder="Todo Name" required="true"></asp:TextBox>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label" for="TodoNotesTextBox">First Name</label>
+                    <label class="control-label" for="TodoNotesTextBox">Todo Notes</label>
                     <asp:TextBox runat="server" CssClass="form-control" ID="TodoNotesTextBox" 
-                        placeholder="Todo Notes" required="true"></asp:TextBox>
+                        placeholder="Todo Notes" required="false"></asp:TextBox>
                 </div>
 
                     <asp:CheckBox ID="CompletedCheckBox"  runat="server" />
-                    <label class="control-label" for="CompletedCheckBox">First Name</label>
+                    <label class="control-label" for="CompletedCheckBox">Completed</label>
 
                 <div class="text-right">
                     <asp:Button Text="Cancel" ID="CancelButton" CssClass="btn btn-warning btn-lg" runat="server"

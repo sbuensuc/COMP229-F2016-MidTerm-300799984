@@ -6,7 +6,7 @@
             <div class="col-md-offset-2 col-md-8">
                 <h1>To Do List</h1>
 
-                <a href="" class="btn btn-success btn-sm">
+                <a href="TodoDetails.aspx" class="btn btn-success btn-sm">
                     <i class="fa fa-plus">Add Todo</i>
                 </a>
                 
@@ -21,7 +21,7 @@
                             runat="server" DataNavigateUrlFields="TodoID"
                             DataNavigateUrlFormatString="TodoDetails.aspx?TodoID={0}" />
                         
-                        <asp:CommandField HeaderText="Delete" DeleteText="<i class='fa fa-trash-o fa-lg'></i>"
+                        <asp:CommandField HeaderText="Delete" DeleteText="<i class='fa fa-trash-o fa-lg'></i> Delete"
                             ShowDeleteButton="true" ButtonType="Link" ControlStyle-CssClass="btn btn-danger btn-sm" />
                     </Columns>
                 </asp:GridView>

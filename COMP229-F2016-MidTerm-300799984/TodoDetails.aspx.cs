@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using COMP229_F2016_MidTerm_300799984.Models;
+using System.Web.ModelBinding;
+using System.Linq.Dynamic;
 
 namespace COMP229_F2016_MidTerm_300799984
 {
@@ -11,17 +14,94 @@ namespace COMP229_F2016_MidTerm_300799984
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if ((!IsPostBack) && (Request.QueryString.Count > 0))
+            {
+                this.GetTodo();
+            }
+        }
 
+        protected void GetTodo()
+        {
+            
+            int StudentID = Convert.ToInt32(Request.QueryString["TodoID"]);
+
+            // connect to the EF DB
+            using (TodoContext db = new TodoContext())
+            {
+                // populate a student object instance with the StudentID from 
+                // the URL parameter
+                Todo updatedTodo = (from todo in db.Todos
+                                          where todo.TodoID == StudentID
+                                          select todo).FirstOrDefault();
+
+                // map the student properties to the form control
+                if (updatedTodo != null)
+                {
+                    TodoDescriptionTextbox.Text = updatedTodo.TodoDescription;
+                    TodoNotesTextBox.Text = updatedTodo.TodoNotes;
+
+                    if(updatedTodo.Completed == true)
+                    {
+                        CompletedCheckBox.Checked = true;
+                    }
+                    
+                }
+            }
         }
 
         protected void CancelButton_Click(object sender, EventArgs e)
         {
-
+            Response.Redirect("~/TodoList.aspx");
         }
 
         protected void SaveButton_Click(object sender, EventArgs e)
         {
+            using (TodoContext db = new TodoContext())
+            {
+                
 
+                Todo newTodo = new Todo();
+
+                int TodoID = 0;
+
+                if (Request.QueryString.Count > 0) 
+                {
+                    
+                    TodoID = Convert.ToInt32(Request.QueryString["TodoID"]);
+
+                   
+                    newTodo = (from todo in db.Todos
+                                  where todo.TodoID == TodoID
+                                  select todo).FirstOrDefault();
+                }
+
+                
+                newTodo.TodoDescription = TodoDescriptionTextbox.Text;
+                newTodo.TodoNotes = TodoNotesTextBox.Text;
+
+                if(CompletedCheckBox.Checked == true)
+                {
+                    newTodo.Completed = true;
+                }
+                else
+                {
+                    newTodo.Completed = false;
+                }
+               
+
+                
+
+                if (TodoID == 0)
+                {
+                    db.Todos.Add(newTodo);
+                }
+
+                
+                db.SaveChanges();
+
+               
+                Response.Redirect("~/TodoList.aspx");
+            }
         }
     }
 }
